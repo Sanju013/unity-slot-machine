@@ -1,0 +1,58 @@
+# Unity generated folders
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+/[Uu]serSettings/
+
+# Build output
+/[Bb]uild/*
+
+# Keep the required WebGL submission build
+!/[Bb]uild/WebGL/
+!/[Bb]uild/WebGL/**
+
+# Asset metadata must be committed
+!/[Aa]ssets/**/*.meta
+
+# IDE / editor generated files
+.vs/
+.vscode/
+.gradle/
+.idea/
+
+# Unity generated solution/project files
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Crash reports
+sysinfo.txt
+
+# Build packages
+*.apk
+*.aab
+*.unitypackage
+
+# Crashlytics
+crashlytics-build.properties
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
