@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 436764083858340846}
   - component: {fileID: 5658934813819893356}
+  - component: {fileID: 359210457778026107}
   m_Layer: 5
   m_Name: Reel
   m_TagString: Untagged
@@ -51,6 +52,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
+--- !u!114 &359210457778026107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6930324047687502327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69c95acd5d2c15b4e9ee9b3ec7e60a11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  symbolStrip: {fileID: 2590987262372410764}
+  spinDuration: 1.5
+  spinSpeed: 900
+  symbolHeight: 96
 --- !u!1 &8994892213095544012
 GameObject:
   m_ObjectHideFlags: 0

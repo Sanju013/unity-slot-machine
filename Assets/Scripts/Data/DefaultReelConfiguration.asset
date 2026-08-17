@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db05a41dc6ee38f45af06444824472ca, type: 3}
   m_Name: DefaultReelConfiguration
   m_EditorClassIdentifier: 
-  symbols: []
+  symbols:
+  - {fileID: 11400000, guid: e652c86e98345da42ba8a95c2ceb8846, type: 2}
+  - {fileID: 11400000, guid: bede873e9b165424faa066ea9670c77d, type: 2}
+  - {fileID: 11400000, guid: 981a6aec4b1b47347aa69ce4745eef54, type: 2}
+  - {fileID: 11400000, guid: a2ef11b119ae57d4ebb02e8e9d5cfaf9, type: 2}
