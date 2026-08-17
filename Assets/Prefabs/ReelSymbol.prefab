@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2313237940030029479}
   - component: {fileID: 6878229326645403331}
   - component: {fileID: 2349425844927874025}
+  - component: {fileID: 4098247012748333353}
   m_Layer: 5
   m_Name: ReelSymbol
   m_TagString: Untagged
@@ -75,3 +76,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4098247012748333353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506847831719158494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b72f895168820439b70117a72ed5b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  symbolImage: {fileID: 0}
