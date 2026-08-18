@@ -2,6 +2,7 @@ using UnityEngine;
 using UnitySlotMachine.Core;
 using UnitySlotMachine.Data;
 using UnitySlotMachine.Reels;
+using UnitySlotMachine.UI;
 
 namespace UnitySlotMachine.Gameplay
 {
@@ -10,11 +11,26 @@ namespace UnitySlotMachine.Gameplay
         [Header("References")]
         [SerializeField] private ReelController[] reels;
         [SerializeField] private ReelConfiguration reelConfiguration;
+        [SerializeField] private WinEvaluator winEvaluator;
+        [SerializeField] private PayoutManager payoutManager;
+        [SerializeField] private BetManager betManager;
+        [SerializeField] private BetPopupController betPopupController;
 
         [Header("Spin Settings")]
         [SerializeField] private float reelStartDelay = 0.15f;
 
         private SpinResultGenerator resultGenerator;
+        private SpinResult currentSpinResult;
+
+        private SlotMachineState currentState;
+
+        public SlotMachineState CurrentState => currentState;
+
+        public bool IsSpinning =>
+            currentState == SlotMachineState.Spinning;
+
+        public SpinResult CurrentSpinResult =>
+            currentSpinResult;
 
         private void Awake()
         {
@@ -30,22 +46,61 @@ namespace UnitySlotMachine.Gameplay
 
             resultGenerator =
                 new SpinResultGenerator(reelConfiguration);
-        }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Spin();
-            }
+            currentState = SlotMachineState.Betting;
         }
 
         public void Spin()
         {
+            if (currentState != SlotMachineState.ReadyToSpin)
+            {
+                return;
+            }
+
             if (reels == null || reels.Length == 0)
             {
                 Debug.LogError(
                     "SlotMachineController requires at least one Reel Controller.",
+                    this
+                );
+
+                return;
+            }
+
+            if (winEvaluator == null)
+            {
+                Debug.LogError(
+                    "SlotMachineController requires a WinEvaluator reference.",
+                    this
+                );
+
+                return;
+            }
+
+            if (payoutManager == null)
+            {
+                Debug.LogError(
+                    "SlotMachineController requires a PayoutManager reference.",
+                    this
+                );
+
+                return;
+            }
+
+            if (betManager == null)
+            {
+                Debug.LogError(
+                    "SlotMachineController requires a BetManager reference.",
+                    this
+                );
+
+                return;
+            }
+
+            if (!betManager.HasBet)
+            {
+                Debug.LogWarning(
+                    "Cannot spin without an active bet.",
                     this
                 );
 
@@ -70,18 +125,21 @@ namespace UnitySlotMachine.Gameplay
                 }
             }
 
-            SpinResult result =
+            currentState = SlotMachineState.Spinning;
+
+            currentSpinResult =
                 resultGenerator.GenerateResult(reels.Length);
 
-            for (int i = 0; i < result.ReelCount; i++)
+            for (int i = 0; i < currentSpinResult.ReelCount; i++)
             {
                 Debug.Log(
-                    $"Spin Result - Reel {i + 1}: {result.GetSymbol(i).name}"
+                    $"Spin Result - Reel {i + 1}: " +
+                    $"{currentSpinResult.GetSymbol(i).name}"
                 );
             }
 
             StartCoroutine(
-                StartReelsSequentially(result)
+                StartReelsSequentially(currentSpinResult)
             );
         }
 
@@ -101,6 +159,76 @@ namespace UnitySlotMachine.Gameplay
                     );
                 }
             }
+
+            yield return new WaitUntil(
+                () => !AreReelsSpinning()
+            );
+
+            ProcessSpinResult();
+        }
+
+        private bool AreReelsSpinning()
+        {
+            foreach (ReelController reel in reels)
+            {
+                if (reel != null && reel.IsSpinning)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void ProcessSpinResult()
+        {
+            currentState =
+                SlotMachineState.ProcessingResult;
+
+            bool won =
+                winEvaluator.IsWinningResult(
+                    currentSpinResult
+                );
+
+            if (won)
+            {
+                int payout =
+                    payoutManager.AwardPayout();
+
+                Debug.Log(
+                    $"WIN! Payout: {payout}G"
+                );
+            }
+            else
+            {
+                Debug.Log("LOSS.");
+            }
+
+            betManager.ClearBet();
+
+            currentState =
+                SlotMachineState.Betting;
+
+            if (betPopupController != null)
+            {
+                betPopupController.Show();
+            }
+        }
+
+        public void SetReadyToSpin()
+        {
+            if (currentState != SlotMachineState.Betting)
+            {
+                return;
+            }
+
+            if (betManager == null || !betManager.HasBet)
+            {
+                return;
+            }
+
+            currentState =
+                SlotMachineState.ReadyToSpin;
         }
     }
 }

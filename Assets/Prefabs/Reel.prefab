@@ -65,9 +65,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   symbolStrip: {fileID: 2590987262372410764}
+  symbolPrefab: {fileID: 4098247012748333353, guid: f59d867e856815c49bb1c0df31a8c0d4, type: 3}
+  reelConfiguration: {fileID: 11400000, guid: faa89d0abf717714a9a4aa8cde050d97, type: 2}
   spinDuration: 1.5
   spinSpeed: 900
   symbolHeight: 96
+  visibleBufferSymbols: 2
+  settleDuration: 0.25
 --- !u!1 &8994892213095544012
 GameObject:
   m_ObjectHideFlags: 0
