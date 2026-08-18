@@ -4,7 +4,7 @@ namespace UnitySlotMachine.Data
 {
     [CreateAssetMenu(
         fileName = "SymbolDefinition",
-        menuName = "Slot Machine/Symbol Definition"
+        menuName = "Slot Machine Definition"
     )]
     public class SymbolDefinition : ScriptableObject
     {

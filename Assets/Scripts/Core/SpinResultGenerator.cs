@@ -16,7 +16,7 @@ namespace UnitySlotMachine.Core
             if (reelConfiguration.Symbols.Count == 0)
             {
                 throw new ArgumentException(
-                    "Reel configuration must contain at least one symbol.",
+                    "one symbol need by reel config.",
                     nameof(configuration)
                 );
             }

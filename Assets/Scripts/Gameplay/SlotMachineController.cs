@@ -14,7 +14,11 @@ namespace UnitySlotMachine.Gameplay
         [SerializeField] private WinEvaluator winEvaluator;
         [SerializeField] private PayoutManager payoutManager;
         [SerializeField] private BetManager betManager;
+        [SerializeField] private Wallet wallet;
         [SerializeField] private BetPopupController betPopupController;
+        [SerializeField] private ResultUIController resultUIController;
+        [SerializeField] private ResetGameController resetGameController;
+        [SerializeField] private SlotMachineAudio slotMachineAudio;
 
         [Header("Spin Settings")]
         [SerializeField] private float reelStartDelay = 0.15f;
@@ -60,7 +64,7 @@ namespace UnitySlotMachine.Gameplay
             if (reels == null || reels.Length == 0)
             {
                 Debug.LogError(
-                    "SlotMachineController requires at least one Reel Controller.",
+                    "one reel controller",
                     this
                 );
 
@@ -70,7 +74,7 @@ namespace UnitySlotMachine.Gameplay
             if (winEvaluator == null)
             {
                 Debug.LogError(
-                    "SlotMachineController requires a WinEvaluator reference.",
+                    "winevaluator missing",
                     this
                 );
 
@@ -80,7 +84,7 @@ namespace UnitySlotMachine.Gameplay
             if (payoutManager == null)
             {
                 Debug.LogError(
-                    "SlotMachineController requires a PayoutManager reference.",
+                    "payout manager is missing",
                     this
                 );
 
@@ -90,7 +94,7 @@ namespace UnitySlotMachine.Gameplay
             if (betManager == null)
             {
                 Debug.LogError(
-                    "SlotMachineController requires a BetManager reference.",
+                    "betmanager is missing",
                     this
                 );
 
@@ -100,7 +104,7 @@ namespace UnitySlotMachine.Gameplay
             if (!betManager.HasBet)
             {
                 Debug.LogWarning(
-                    "Cannot spin without an active bet.",
+                    "active bet is needed here",
                     this
                 );
 
@@ -112,7 +116,7 @@ namespace UnitySlotMachine.Gameplay
                 if (reel == null)
                 {
                     Debug.LogError(
-                        "SlotMachineController contains a null Reel Controller.",
+                        "reel controller is null",
                         this
                     );
 
@@ -126,17 +130,13 @@ namespace UnitySlotMachine.Gameplay
             }
 
             currentState = SlotMachineState.Spinning;
+            if (slotMachineAudio != null)
+            {
+                slotMachineAudio.PlaySpin();
+            }
 
             currentSpinResult =
                 resultGenerator.GenerateResult(reels.Length);
-
-            for (int i = 0; i < currentSpinResult.ReelCount; i++)
-            {
-                Debug.Log(
-                    $"Spin Result - Reel {i + 1}: " +
-                    $"{currentSpinResult.GetSymbol(i).name}"
-                );
-            }
 
             StartCoroutine(
                 StartReelsSequentially(currentSpinResult)
@@ -185,23 +185,65 @@ namespace UnitySlotMachine.Gameplay
             currentState =
                 SlotMachineState.ProcessingResult;
 
+            bool isJackpot =
+                winEvaluator.IsJackpotResult(
+                    currentSpinResult
+                );
+
             bool won =
                 winEvaluator.IsWinningResult(
                     currentSpinResult
                 );
 
-            if (won)
+            if (isJackpot)
             {
+                if (slotMachineAudio != null)
+                {
+                    slotMachineAudio.PlayJackpot();
+                }
+                int normalPayout =
+                    payoutManager.CalculatePayout();
+
+                int jackpotBonus =
+                    payoutManager.AwardJackpot();
+
+                int totalPayout =
+                    normalPayout + jackpotBonus;
+
+                if (normalPayout > 0)
+                {
+                    wallet.Add(normalPayout);
+                }
+
+                if (resultUIController != null)
+                {
+                    resultUIController.ShowJackpot(totalPayout);
+                }
+            }
+            else if (won)
+            {
+                if (slotMachineAudio != null)
+                {
+                    slotMachineAudio.PlayWin();
+                }
                 int payout =
                     payoutManager.AwardPayout();
 
-                Debug.Log(
-                    $"WIN! Payout: {payout}G"
-                );
+                if (resultUIController != null)
+                {
+                    resultUIController.ShowWin(payout);
+                }
             }
             else
             {
-                Debug.Log("LOSS.");
+                if (slotMachineAudio != null)
+                {
+                    slotMachineAudio.PlayLoss();
+                }
+                if (resultUIController != null)
+                {
+                    resultUIController.ShowLoss();
+                }
             }
 
             betManager.ClearBet();
@@ -212,6 +254,15 @@ namespace UnitySlotMachine.Gameplay
             if (betPopupController != null)
             {
                 betPopupController.Show();
+            }
+
+            if (!won &&
+                !isJackpot &&
+                wallet != null &&
+                wallet.Balance <= 0 &&
+                resetGameController != null)
+            {
+                resetGameController.Show();
             }
         }
 

@@ -24,7 +24,7 @@ namespace UnitySlotMachine.UI
             if (leverImage == null)
             {
                 Debug.LogError(
-                    "LeverController requires a Lever Image reference.",
+                    "Lever Image reference missing here.",
                     this
                 );
             }
@@ -32,7 +32,7 @@ namespace UnitySlotMachine.UI
             if (slotMachineController == null)
             {
                 Debug.LogError(
-                    "LeverController requires a SlotMachineController reference.",
+                    "slotmachinecontroller missing.",
                     this
                 );
             }
@@ -40,7 +40,7 @@ namespace UnitySlotMachine.UI
             if (unpulledSprite == null)
             {
                 Debug.LogError(
-                    "LeverController requires an unpulled lever sprite.",
+                    "unpulled lever missing.",
                     this
                 );
             }
@@ -48,7 +48,7 @@ namespace UnitySlotMachine.UI
             if (pulledSprite == null)
             {
                 Debug.LogError(
-                    "LeverController requires a pulled lever sprite.",
+                    "pulled level is missing",
                     this
                 );
             }
@@ -56,7 +56,7 @@ namespace UnitySlotMachine.UI
             if (leverButton == null)
             {
                 Debug.LogError(
-                    "LeverController requires a Button component.",
+                    "component of button missing.",
                     this
                 );
             }

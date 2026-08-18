@@ -17,7 +17,7 @@ namespace UnitySlotMachine.Reels
         {
             if (definition == null)
             {
-                Debug.LogError("ReelSymbol received a null SymbolDefinition.", this);
+                Debug.LogError("symbol def is null", this);
                 return;
             }
 

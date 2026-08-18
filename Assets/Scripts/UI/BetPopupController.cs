@@ -17,6 +17,7 @@ namespace UnitySlotMachine.UI
         [SerializeField] private Button bet50Button;
         [SerializeField] private Button bet100Button;
         [SerializeField] private TMP_Text balanceText;
+        [SerializeField] private ResultUIController resultUIController;
 
         private void OnEnable()
         {
@@ -80,6 +81,11 @@ namespace UnitySlotMachine.UI
             if (!betManager.PlaceBet())
             {
                 return;
+            }
+
+            if (resultUIController != null)
+            {
+                resultUIController.Hide();
             }
 
             if (slotMachineController != null)

@@ -4,7 +4,7 @@ namespace UnitySlotMachine.Gameplay
 {
     public class Wallet : MonoBehaviour
     {
-        [SerializeField] private int startingBalance = 500;
+        [SerializeField] private int startingBalance = 1000;
 
         private int balance;
 
@@ -39,6 +39,11 @@ namespace UnitySlotMachine.Gameplay
             }
 
             balance += amount;
+        }
+
+        public void ResetBalance()
+        {
+            balance = startingBalance;
         }
     }
 }

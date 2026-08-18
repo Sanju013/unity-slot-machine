@@ -4,14 +4,15 @@ namespace UnitySlotMachine.Gameplay
 {
     public class PayoutManager : MonoBehaviour
     {
-        [Header("References")]
+        
         [SerializeField] private Wallet wallet;
         [SerializeField] private BetManager betManager;
 
-        [Header("Payout Multipliers")]
-        [SerializeField] private float smallBetMultiplier = 1.5f;
-        [SerializeField] private float mediumBetMultiplier = 2f;
-        [SerializeField] private float largeBetMultiplier = 5f;
+        [SerializeField] private float smallBetMultiplier = 3f;
+        [SerializeField] private float mediumBetMultiplier = 5f;
+        [SerializeField] private float largeBetMultiplier = 15f;
+
+        [SerializeField] private int jackpotPayout = 5000;
 
         public int CalculatePayout()
         {
@@ -56,6 +57,18 @@ namespace UnitySlotMachine.Gameplay
             wallet.Add(payout);
 
             return payout;
+        }
+
+        public int AwardJackpot()
+        {
+            if (wallet == null)
+            {
+                return 0;
+            }
+
+            wallet.Add(jackpotPayout);
+
+            return jackpotPayout;
         }
     }
 }

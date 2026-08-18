@@ -36,7 +36,7 @@ namespace UnitySlotMachine.Reels
             if (symbolStrip == null)
             {
                 Debug.LogError(
-                    "ReelController requires a Symbol Strip reference.",
+                    "symbol strip reference missing",
                     this
                 );
 
@@ -46,7 +46,7 @@ namespace UnitySlotMachine.Reels
             if (symbolPrefab == null)
             {
                 Debug.LogError(
-                    "ReelController requires a Reel Symbol prefab.",
+                    "Rsymbol prefab reference is missing",
                     this
                 );
 
@@ -56,7 +56,7 @@ namespace UnitySlotMachine.Reels
             if (reelConfiguration == null)
             {
                 Debug.LogError(
-                    "ReelController requires a Reel Configuration.",
+                    "reel config missing",
                     this
                 );
 
@@ -91,6 +91,7 @@ namespace UnitySlotMachine.Reels
 
                 reelSymbols.Add(symbol);
             }
+            
         }
 
         private void ClearSymbolStrip()
@@ -113,7 +114,7 @@ namespace UnitySlotMachine.Reels
             if (targetSymbol == null)
             {
                 Debug.LogError(
-                    "ReelController received a null target symbol.",
+                    "target symbol is null.",
                     this
                 );
 
@@ -264,7 +265,7 @@ namespace UnitySlotMachine.Reels
             else
             {
                 Debug.LogError(
-                    "ReelController could not find a center symbol.",
+                    "center symbol not found ",
                     this
                 );
             }

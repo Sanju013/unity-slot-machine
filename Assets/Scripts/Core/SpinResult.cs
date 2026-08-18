@@ -19,7 +19,7 @@ namespace UnitySlotMachine.Core
             if (symbols.Length == 0)
             {
                 throw new ArgumentException(
-                    "A spin result must contain at least one symbol.",
+                    "one symbol needed by spinresult",
                     nameof(symbols)
                 );
             }

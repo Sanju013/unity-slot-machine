@@ -5,7 +5,7 @@ namespace UnitySlotMachine.Data
 {
     [CreateAssetMenu(
         fileName = "ReelConfiguration",
-        menuName = "Slot Machine/Reel Configuration"
+        menuName = "Slot Machine Configuration"
     )]
     public class ReelConfiguration : ScriptableObject
     {
